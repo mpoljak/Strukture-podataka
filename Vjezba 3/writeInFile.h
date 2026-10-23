@@ -1,34 +1,26 @@
-#ifndef sort_h
-#define sort_h
+#ifndef writeInFile_h
+#define writeInFile_h
 
 #include "personStruct.h"
 #include "printStudents.h"
 
-int sort(Position Head)
-{
-	Position p = NULL;
-	Position q = NULL;
-	Position temp = NULL;
-	Position end = NULL;
 
-	while (Head->next != end) {
-		q = Head;
-		p = Head->next;
-		while (p->next != end) {
-			if (strcmp(p->lastName, p->next->lastName) > 0) {
-				temp = p->next;
-				q->next = temp;
-				p->next = temp->next;
-				temp->next = p;
-				p = temp;
-			}
-			q = p;
-			p = p->next;
-		}
-		end = p;
+int writeInFile(Position p)
+{
+	FILE* fp = NULL;
+	fp = fopen("person.txt", "w");
+	if (fp == NULL)
+	{
+		printf("Dear coustomer, the file didn't open\n");
+		return 1;
 	}
-	printStudents(p->next);
-	return SUCCESS;
+	while (p != NULL)
+	{
+		fprintf(fp, "\n %s %s %d", p->firstName, p->lastName, &p->birthYear);
+		p = p->next;
+	}
+	fclose(fp);
+	return 0;
 }
 
 #endif
